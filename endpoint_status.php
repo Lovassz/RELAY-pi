@@ -24,7 +24,7 @@ try {
     $lastLine       = explode(',', $lastLine);
 
     // Gathering the time from the last ping log
-    $lastSwitchPing = intval($lastLine[1]);
+    $switchStatus = (intval($lastLine[1]) + intval($lastLine[2]) / 1000000) > time() ? 'OK' : 'ERROR';
 
 }
 catch (\Throwable $t) {}
@@ -38,10 +38,11 @@ catch (\Exception $e) {}
 try {
 
     // Getting Tasmota status
-    $relayStatus = json_decode(file_get_contents("http://$relayURL/cm?user=admin&password=stupid&cmnd=Status0"), true);
+    $relayStatus   = 'ERROR';
+    $relayResponse = json_decode(file_get_contents("http://$relayURL/cm?user=admin&password=stupid&cmnd=Status0"), true);
 
-    if (!empty($relayStatus))
-        $lastRelayPing = time();
+    if (!empty($relayResponse))
+    $relayStatus = 'OK';
 
 }
 catch (\Throwable $t) {}
@@ -50,7 +51,6 @@ catch (\Exception $e) {}
 
 // RESPONDING
 echo json_encode([
-    'now'            => time(),
-    'lastSwitchPing' => $lastSwitchPing,
-    'lastRelayPing'  => $lastRelayPing,
+    'switchStatus' => $switchStatus,
+    'relayStatus'  => $relayStatus,
 ], JSON_PRETTY_PRINT);
