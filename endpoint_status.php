@@ -51,6 +51,7 @@ catch (\Exception $e) {}
 
 // RESPONDING
 echo json_encode([
+    'serverStatus' => 'OK',
     'switchStatus' => $switchStatus,
     'relayStatus'  => $relayStatus,
 ], JSON_PRETTY_PRINT);
