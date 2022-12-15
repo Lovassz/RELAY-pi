@@ -24,7 +24,7 @@ try {
     $lastLine       = explode(',', $lastLine);
 
     // Gathering the time from the last ping log
-    $switchStatus = (intval($lastLine[1]) + intval($lastLine[2]) / 1000000) > time() ? 'OK' : 'ERROR';
+    $switchStatus = (intval($lastLine[1]) + intval($lastLine[2]) / 1000000 + 60) > time() ? 'OK' : 'ERROR';
 
 }
 catch (\Throwable $t) {}
