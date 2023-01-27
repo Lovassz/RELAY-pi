@@ -1,7 +1,7 @@
 // Variables used by Scriptable.
 // These must be at the very top of the file. Do not edit.
 // icon-color: red; icon-glyph: magic;
-const dataUrl = "http://Lovi:@192.168.0.18/endpoint_status.php";
+const dataUrl = "http://Lovi:@192.168.1.5/index.php?status";
 
 let widget = await createWidget();
 Script.setWidget(widget);
@@ -14,8 +14,8 @@ async function createWidget() {
 
     let data = {
         "serverStatus": "ERROR",
-        "switchStatus": "ERROR",
-        "relayStatus" : "ERROR"
+        "switchStatus": "?",
+        "relayStatus" : "?"
     };
 
     const req = new Request(dataUrl);
@@ -26,7 +26,8 @@ async function createWidget() {
 
     } catch(err) {}
 
-    if (data.serverStatus + data.switchStatus + data.relayStatus !== 'OKOKOK') {
+    if (data.serverStatus === 'ERROR') {}
+    else if (data.serverStatus + data.switchStatus + data.relayStatus !== 'OKOKOK') {
         let noti      = new Notification()
         noti.title    = "OUTGE!!!";
         noti.body     = "A RELAY egyik komponense nem válaszol!";
@@ -48,7 +49,7 @@ async function createWidget() {
     // Server
     let serwerRow = widget.addText(`Server ${data.serverStatus}`);
     serwerRow.font = Font.boldSystemFont(15);
-    serwerRow.textColor = (data.switchStatus === 'OK') ? Color.green() : Color.red();
+    serwerRow.textColor = (data.serverStatus === 'OK') ? Color.green() : Color.red();
 
     
     // Switch

@@ -15,4 +15,4 @@ $currentCallEstimated = intval(@file_get_contents('data/switch_esimated_next_cal
 
 echo 'ok';
 
-//http://192.168.0.17/cm?user=admin&password=stupid&cmnd=Power%20On
+//http://192.168.1.6/cm?user=admin&password=stupid&cmnd=Power%20On
